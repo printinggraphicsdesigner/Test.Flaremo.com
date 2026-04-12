@@ -3,7 +3,9 @@ from django.http import FileResponse
 import os
 import tempfile
 from docx import Document
-from weasyprint import HTML
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
 from .forms import WordToPdfForm
 
 def word_to_pdf_view(request):
@@ -12,6 +14,7 @@ def word_to_pdf_view(request):
         if form.is_valid():
             uploaded_file = request.FILES['word_file']
             
+            # Temporary input file
             with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_in:
                 for chunk in uploaded_file.chunks():
                     tmp_in.write(chunk)
@@ -20,14 +23,27 @@ def word_to_pdf_view(request):
             output_path = input_path.replace('.docx', '.pdf')
 
             try:
-                # Read docx and convert to HTML then to PDF
+                # Read Word file
                 doc = Document(input_path)
-                html_content = ""
-                for para in doc.paragraphs:
-                    html_content += f"<p>{para.text}</p>"
+                
+                # Create PDF
+                c = canvas.Canvas(output_path, pagesize=letter)
+                width, height = letter
+                y = height - inch
 
-                HTML(string=html_content).write_pdf(output_path)
+                for paragraph in doc.paragraphs:
+                    if paragraph.text.strip():
+                        c.drawString(inch, y, paragraph.text)
+                        y -= 0.3 * inch
+                        
+                        # Page break if needed
+                        if y < inch:
+                            c.showPage()
+                            y = height - inch
 
+                c.save()
+
+                # Send file to user
                 response = FileResponse(
                     open(output_path, 'rb'),
                     as_attachment=True,
@@ -46,7 +62,7 @@ def word_to_pdf_view(request):
                     os.unlink(input_path)
                 return render(request, 'word_to_pdf/index.html', {
                     'form': form,
-                    'error': f'কনভার্শন ব্যর্থ: {str(e)}'
+                    'error': f'কনভার্শন ব্যর্থ হয়েছে: {str(e)}'
                 })
 
     else:
