@@ -3,7 +3,7 @@ from django.http import FileResponse
 import os
 import tempfile
 from mammoth import convert_to_html
-from weasyprint import HTML
+from xhtml2pdf import pisa
 from .forms import WordToPdfForm
 
 def word_to_pdf_view(request):
@@ -20,13 +20,17 @@ def word_to_pdf_view(request):
             output_path = input_path.replace('.docx', '.pdf')
 
             try:
-                # Convert Word to HTML (preserves formatting + Bengali)
+                # Convert Word to HTML
                 with open(input_path, "rb") as docx_file:
                     result = convert_to_html(docx_file)
                     html_content = result.value
 
-                # Convert HTML to PDF with proper font support
-                HTML(string=html_content).write_pdf(output_path)
+                # Convert HTML to PDF
+                with open(output_path, "w+b") as pdf_file:
+                    pisa_status = pisa.CreatePDF(html_content, dest=pdf_file)
+                
+                if pisa_status.err:
+                    raise Exception("PDF generation failed")
 
                 # Send PDF to user
                 response = FileResponse(
