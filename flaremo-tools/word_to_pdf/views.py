@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.http import FileResponse
 import os
 import tempfile
-from mammoth import convert_to_html
-from xhtml2pdf import pisa
+import subprocess
 from .forms import WordToPdfForm
 
 def word_to_pdf_view(request):
@@ -20,19 +19,15 @@ def word_to_pdf_view(request):
             output_path = input_path.replace('.docx', '.pdf')
 
             try:
-                # Convert Word to HTML
-                with open(input_path, "rb") as docx_file:
-                    result = convert_to_html(docx_file)
-                    html_content = result.value
+                # LibreOffice দিয়ে কনভার্ট (ফরম্যাটিং + বাংলা + সিম্বল ঠিক থাকবে)
+                subprocess.run([
+                    'libreoffice', 
+                    '--headless', 
+                    '--convert-to', 'pdf', 
+                    '--outdir', os.path.dirname(output_path),
+                    input_path
+                ], check=True, timeout=30)
 
-                # Convert HTML to PDF
-                with open(output_path, "w+b") as pdf_file:
-                    pisa_status = pisa.CreatePDF(html_content, dest=pdf_file)
-                
-                if pisa_status.err:
-                    raise Exception("PDF generation failed")
-
-                # Send PDF to user
                 response = FileResponse(
                     open(output_path, 'rb'),
                     as_attachment=True,
@@ -51,7 +46,7 @@ def word_to_pdf_view(request):
                     os.unlink(input_path)
                 return render(request, 'word_to_pdf/index.html', {
                     'form': form,
-                    'error': f'কনভার্শন ব্যর্থ হয়েছে: {str(e)}'
+                    'error': f'কনভার্শন ব্যর্থ: {str(e)}'
                 })
 
     else:
