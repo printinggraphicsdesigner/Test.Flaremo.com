@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import FileResponse
 import os
 import tempfile
-from docx2pdf import convert
+from docx import Document
+from weasyprint import HTML
 from .forms import WordToPdfForm
 
 def word_to_pdf_view(request):
@@ -11,7 +12,6 @@ def word_to_pdf_view(request):
         if form.is_valid():
             uploaded_file = request.FILES['word_file']
             
-            # Temporary files
             with tempfile.NamedTemporaryFile(delete=False, suffix='.docx') as tmp_in:
                 for chunk in uploaded_file.chunks():
                     tmp_in.write(chunk)
@@ -20,12 +20,18 @@ def word_to_pdf_view(request):
             output_path = input_path.replace('.docx', '.pdf')
 
             try:
-                convert(input_path, output_path)
+                # Read docx and convert to HTML then to PDF
+                doc = Document(input_path)
+                html_content = ""
+                for para in doc.paragraphs:
+                    html_content += f"<p>{para.text}</p>"
+
+                HTML(string=html_content).write_pdf(output_path)
 
                 response = FileResponse(
                     open(output_path, 'rb'),
                     as_attachment=True,
-                    filename=os.path.basename(output_path)
+                    filename=uploaded_file.name.replace('.docx', '.pdf')
                 )
 
                 # Cleanup
@@ -40,7 +46,7 @@ def word_to_pdf_view(request):
                     os.unlink(input_path)
                 return render(request, 'word_to_pdf/index.html', {
                     'form': form,
-                    'error': f'কনভার্শন ব্যর্থ হয়েছে: {str(e)}'
+                    'error': f'কনভার্শন ব্যর্থ: {str(e)}'
                 })
 
     else:
