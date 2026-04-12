@@ -1,12 +1,10 @@
 FROM python:3.11-slim
 
-# Install LibreOffice and necessary fonts for Bengali + formatting support
+# Minimal system dependencies for LibreOffice + Bengali font support
 RUN apt-get update && apt-get install -y \
-    libreoffice \
     libreoffice-writer \
     fonts-dejavu \
     fonts-noto-cjk \
-    fonts-noto-color-emoji \
     fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 
