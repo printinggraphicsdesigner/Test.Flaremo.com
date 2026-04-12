@@ -1,12 +1,14 @@
 FROM python:3.11-slim
 
-# Minimal system dependencies for LibreOffice + Bengali font support
-RUN apt-get update && apt-get install -y \
+# Minimal LibreOffice for Word → PDF (headless)
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libreoffice-writer \
     fonts-dejavu \
     fonts-noto-cjk \
     fonts-liberation \
-    && rm -rf /var/lib/apt/lists/*
+    fonts-opensymbol \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
 
 WORKDIR /app
 
