@@ -19,14 +19,13 @@ def word_to_pdf_view(request):
             output_path = input_path.replace('.docx', '.pdf')
 
             try:
-                # LibreOffice দিয়ে কনভার্ট (ফরম্যাটিং + বাংলা + সিম্বল ঠিক থাকবে)
                 subprocess.run([
                     'libreoffice', 
                     '--headless', 
                     '--convert-to', 'pdf', 
                     '--outdir', os.path.dirname(output_path),
                     input_path
-                ], check=True, timeout=30)
+                ], check=True, timeout=45)
 
                 response = FileResponse(
                     open(output_path, 'rb'),
@@ -34,7 +33,6 @@ def word_to_pdf_view(request):
                     filename=uploaded_file.name.replace('.docx', '.pdf')
                 )
 
-                # Cleanup
                 os.unlink(input_path)
                 if os.path.exists(output_path):
                     os.unlink(output_path)
@@ -46,7 +44,7 @@ def word_to_pdf_view(request):
                     os.unlink(input_path)
                 return render(request, 'word_to_pdf/index.html', {
                     'form': form,
-                    'error': f'কনভার্শন ব্যর্থ: {str(e)}'
+                    'error': f'কনভার্শন ব্যর্থ হয়েছে: {str(e)}'
                 })
 
     else:
