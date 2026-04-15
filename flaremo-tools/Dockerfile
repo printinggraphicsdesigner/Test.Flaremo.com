@@ -1,12 +1,15 @@
 FROM python:3.11-slim
 
-# Minimal LibreOffice for Word → PDF (headless)
+# LibreOffice + Bengali + Symbol support এর জন্য ভালো ফন্ট
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libreoffice-writer \
     fonts-dejavu \
+    fonts-noto-core \
     fonts-noto-cjk \
+    fonts-noto-color-emoji \
     fonts-liberation \
     fonts-opensymbol \
+    fonts-freefont-ttf \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get clean
 
