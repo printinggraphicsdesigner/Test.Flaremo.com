@@ -5,7 +5,7 @@ def home(request):
         {
             'name': 'Word to PDF',
             'url': '/word-to-pdf/',
-            'description': 'Microsoft Word (.docx) ফাইলকে PDF এ কনভার্ট করুন',
+            'description': 'Microsoft Word (.docx) Convert To PDF ',
             'icon': '📄'
         },
         # এখানে পরে আরও টুল যোগ করবে
