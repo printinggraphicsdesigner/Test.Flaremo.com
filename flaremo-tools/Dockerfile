@@ -24,4 +24,4 @@ RUN python manage.py collectstatic --noinput
 
 EXPOSE 10000
 
-CMD python manage.py migrate && python manage.py createadmin && gunicorn tools_hub.wsgi:application --bind 0.0.0.0:8000
+CMD python manage.py makemigrations && python manage.py migrate && python manage.py createadmin && gunicorn tools_hub.wsgi:application --bind 0.0.0.0:8000
