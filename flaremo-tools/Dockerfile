@@ -20,10 +20,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py migrate
-
 RUN python manage.py collectstatic --noinput
 
 EXPOSE 10000
 
-CMD ["gunicorn", "tools_hub.wsgi:application", "--bind", "0.0.0.0:10000"]
+CMD python manage.py migrate && python manage.py createadmin && gunicorn tools_hub.wsgi:application --bind 0.0.0.0:8000
