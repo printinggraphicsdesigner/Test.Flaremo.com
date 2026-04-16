@@ -11,15 +11,18 @@ class Command(BaseCommand):
         password = os.environ.get("DJANGO_SUPERUSER_PASSWORD")
 
         if not username or not password:
-            self.stdout.write("❌ সেট করা নাই (env variable missing)")
+            print("❌ ENV missing")
             return
 
-        if not User.objects.filter(username=username).exists():
-            User.objects.create_superuser(
-                username=username,
-                email=email,
-                password=password
-            )
-            self.stdout.write("✅ Admin created")
+        user, created = User.objects.get_or_create(username=username)
+
+        user.email = email
+        user.set_password(password)   # 🔥 IMPORTANT
+        user.is_staff = True
+        user.is_superuser = True
+        user.save()
+
+        if created:
+            print("✅ Superuser created")
         else:
-            self.stdout.write("ℹ️ Admin already exists")
+            print("♻️ Superuser updated")
