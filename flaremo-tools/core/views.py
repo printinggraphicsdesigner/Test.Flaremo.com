@@ -1,13 +1,6 @@
 from django.shortcuts import render
+from .models import Tool   # 👈 ADD
 
 def home(request):
-    tools = [
-        {
-            'name': 'Word to PDF',
-            'url': '/word-to-pdf/',
-            'description': 'Microsoft Word (.docx) Convert To PDF ',
-            'icon': '📄'
-        },
-        # এখানে পরে আরও টুল যোগ করবে
-    ]
+    tools = Tool.objects.filter(is_active=True)   # 👈 CHANGE
     return render(request, 'home.html', {'tools': tools})
