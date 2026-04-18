@@ -2,7 +2,6 @@ FROM python:3.11-slim
 
 # LibreOffice + Bengali + Symbol support এর জন্য ভালো ফন্ট
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libreoffice \
     libreoffice-writer \
     fonts-dejavu \
     fonts-noto-core \
