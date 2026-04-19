@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flaremo Tools - {% block title %}Free Online Tools{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <!-- ==================== HEADER ==================== -->
+    <header class="bg-white shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            
+            <!-- Logo + Brand Name -->
+            <a href="/" class="flex items-center gap-3 hover:opacity-90 transition">
+                <img src="{% static 'images/logo.png' %}" 
+                     alt="Flaremo Tools Logo" 
+                     class="h-10 w-auto">
+                <span class="text-2xl font-bold text-indigo-600 tracking-tight">Flaremo Tools</span>
+            </a>
+
+            <!-- Navigation -->
+            <nav class="hidden md:flex items-center gap-8 text-gray-700 font-medium">
+                <a href="/" class="hover:text-indigo-600 transition">Home</a>
+                <a href="/tools/" class="hover:text-indigo-600 transition">All Tools</a>
+                <a href="/pricing/" class="hover:text-indigo-600 transition">Pricing</a>
+                <a href="/blog/" class="hover:text-indigo-600 transition">Blog</a>
+            </nav>
+
+            <!-- Auth Buttons -->
+            <div class="flex items-center gap-4">
+                {% if user.is_authenticated %}
+                    <a href="/accounts/profile/" 
+                       class="text-sm font-medium text-gray-700 hover:text-indigo-600">
+                        My Account
+                    </a>
+                    <a href="/logout/" 
+                       class="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition">
+                        Logout
+                    </a>
+                {% else %}
+                    <a href="/login/" 
+                       class="text-sm font-medium text-gray-700 hover:text-indigo-600 px-4 py-2">
+                        Login
+                    </a>
+                    <a href="/register/" 
+                       class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition">
+                        Sign Up
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <!-- ==================== END HEADER ==================== -->
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-6 py-8">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-gray-900 text-gray-300 py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="{% static 'images/logo.png' %}" 
+                             alt="Flaremo Tools Logo" 
+                             class="h-8 w-auto">
+                        <span class="text-xl font-bold text-white">Flaremo Tools</span>
+                    </div>
+                    <p class="text-sm">100+ Free & Premium Online Tools</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Tools</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">Word to PDF</a></li>
+                        <li><a href="#" class="hover:text-white">Image to Text</a></li>
+                        <li><a href="#" class="hover:text-white">PDF Tools</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Company</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                        <li><a href="#" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-3">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white">Disclaimer</a></li>   <!-- নতুন যোগ করা হয়েছে -->
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-10 pt-6 text-center text-xs">
+                © 2026 Flaremo Tools. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+    <!-- ==================== END FOOTER ==================== -->
+
+</body>
+</html>

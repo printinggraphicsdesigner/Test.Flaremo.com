@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-xl mx-auto">
+    <div class="text-center mb-10">
+        <h1 class="text-3xl font-bold mb-3">Word to PDF Converter</h1>
+        <p class="text-gray-600">Microsoft Word ফাইলকে PDF এ কনভার্ট করুন</p>
+    </div>
+
+    {% if error %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-6 py-4 rounded-2xl mb-8">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="bg-white p-10 rounded-3xl shadow">
+        {% csrf_token %}
+        
+        <div class="mb-8">
+            <label class="block text-lg font-medium mb-3">Word ফাইল নির্বাচন করুন</label>
+            {{ form.word_file }}
+            <p class="text-sm text-gray-500 mt-2">শুধুমাত্র .docx ফাইল সমর্থিত</p>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-5 px-8 rounded-2xl text-lg transition">
+            কনভার্ট করুন → PDF
+        </button>
+    </form>
+</div>
+{% endblock %}
