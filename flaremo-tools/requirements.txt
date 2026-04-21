@@ -7,6 +7,5 @@ deep-translator==1.11.4
 django-tinymce
 cloudinary
 requests
-gradio
-client
+gradio_client 
 moviepy
