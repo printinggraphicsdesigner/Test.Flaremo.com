@@ -4,10 +4,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # LibreOffice + Bengali + Symbol support এর জন্য ভালো ফন্ট
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    tesseract-ocr \
-    tesseract-ocr-ben \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
+
     libreoffice \
     libreoffice-writer \
     fonts-dejavu \
