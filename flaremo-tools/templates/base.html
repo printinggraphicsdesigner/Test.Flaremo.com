@@ -1,0 +1,169 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Flaremo Tools - {% block title %}Free Online Tools{% endblock %}</title>
+
+    <!-- SEO Basic -->
+    <meta name="description" content="Free online tools like Word to PDF, Translator, Image tools and more.">
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+<!-- ==================== HEADER ==================== -->
+<header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-3 hover:opacity-90 transition">
+            <img src="{% static 'images/logo.png' %}" class="h-10">
+            <span class="text-2xl font-bold text-indigo-600">Flaremo Tools</span>
+        </a>
+
+        <!-- NAV -->
+        <nav class="hidden md:flex items-center gap-8 text-gray-700 font-medium">
+            <a href="/" class="hover:text-indigo-600">Home</a>
+            <a href="/#tools" class="hover:text-indigo-600">All Tools</a>
+            <a href="/blog/" class="hover:text-indigo-600">Blog</a>
+            <a href="/about/" class="hover:text-indigo-600">About</a>
+            <a href="/contact/" class="hover:text-indigo-600">Contact</a>
+        </nav>
+
+        <!-- AUTH -->
+        <div class="flex items-center gap-4">
+            {% if user.is_authenticated %}
+                <a href="/account/" class="text-sm hover:text-indigo-600">
+                    My Account
+                </a>
+                <a href="/logout/" 
+                   class="bg-red-500 hover:bg-red-600 text-white px-5 py-2 rounded-xl text-sm">
+                    Logout
+                </a>
+            {% else %}
+                <a href="/login/" class="text-sm hover:text-indigo-600">
+                    Login
+                </a>
+                <a href="/register/" 
+                   class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl text-sm">
+                    Sign Up
+                </a>
+            {% endif %}
+        </div>
+
+    </div>
+</header>
+<!-- ==================== END HEADER ==================== -->
+
+
+<!-- ==================== MAIN ==================== -->
+<main class="max-w-7xl mx-auto px-6 py-8">
+    {% block content %}{% endblock %}
+</main>
+<!-- ==================== END MAIN ==================== -->
+
+<!-- ================= BLOG SECTION ================= -->
+<div class="max-w-7xl mx-auto px-6 pb-12">
+
+    <h2 class="text-2xl font-bold mb-6">Latest Articles & Guides</h2>
+
+    {% for blog in dynamic_blogs %}
+        <div class="bg-white p-5 rounded-xl shadow mb-4 hover:shadow-md transition">
+
+            <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                <a href="/blog/{{ blog.slug }}/" class="hover:text-indigo-600">
+                    {{ blog.title }}
+                </a>
+            </h3>
+
+            <div class="text-gray-600 text-sm">
+                {{ blog.content|safe|truncatewords:25 }}
+            </div>
+
+            <a href="/blog/{{ blog.slug }}/" 
+               class="inline-block mt-3 text-indigo-600 text-sm font-medium hover:underline">
+                Read More →
+            </a>
+
+        </div>
+    {% empty %}
+        <div class="bg-white p-6 rounded-xl shadow text-center">
+            <p class="text-gray-500">
+                🚀 No articles available right now.
+            </p>
+            <p class="text-gray-400 text-sm mt-2">
+                Stay tuned! We’re adding helpful guides and tutorials soon.
+            </p>
+        </div>
+    {% endfor %}
+
+</div>
+<!-- ================= END BLOG ================= -->
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="bg-gray-900 text-gray-300 py-12 mt-16">
+    <div class="max-w-7xl mx-auto px-6">
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+            <!-- Brand -->
+            <div>
+                <div class="flex items-center gap-3 mb-4">
+                    <img src="{% static 'images/logo.png' %}" class="h-8">
+                    <span class="text-xl font-bold text-white">Flaremo Tools</span>
+                </div>
+                <p class="text-sm">100+ Free & Premium Online Tools</p>
+            </div>
+
+            <!-- Tools -->
+            <div>
+                <h4 class="text-white font-semibold mb-3">Tools</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/word-to-pdf/" class="hover:text-white">Word to PDF</a></li>
+                    <li><a href="/translator/" class="hover:text-white">Translator</a></li>
+                </ul>
+            </div>
+
+            <!-- Company -->
+            <div>
+                <h4 class="text-white font-semibold mb-3">Company</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/about/" class="hover:text-white">About Us</a></li>
+                    <li><a href="/blog/" class="hover:text-white">Blog</a></li>
+                    <li><a href="/contact/" class="hover:text-white">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Legal -->
+            <div>
+                <h4 class="text-white font-semibold mb-3">Legal</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="/privacy-policy/" class="hover:text-white">Privacy Policy</a></li>
+                    <li><a href="/terms/" class="hover:text-white">Terms of Service</a></li>
+                    <li><a href="/disclaimer/" class="hover:text-white">Disclaimer</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="border-t border-gray-800 mt-10 pt-6 text-center text-xs">
+            © 2026 Flaremo Tools. All Rights Reserved.
+        </div>
+
+    </div>
+</footer>
+<!-- ==================== END FOOTER ==================== -->
+
+</body>
+</html>
