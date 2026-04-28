@@ -9,3 +9,4 @@ cloudinary
 requests
 gradio_client 
 moviepy
+python-decouple
