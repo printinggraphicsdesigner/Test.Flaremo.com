@@ -1,10 +1,11 @@
-from core.models import Tool
 
 class ToolMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
+        from core.models import Tool
+
         request.tool = None
 
         # 👉 URL থেকে slug detect করবে
