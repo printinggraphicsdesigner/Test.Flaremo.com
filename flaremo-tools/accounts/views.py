@@ -16,7 +16,7 @@ def login_view(request):
         remember = request.POST.get('remember')
 
         try:
-            user_obj = User.objects.get(email=email)
+            ser_obj = User.objects.filter(email=email).first()
             user = authenticate(request, username=user_obj.username, password=password)
         except User.DoesNotExist:
             user = None
