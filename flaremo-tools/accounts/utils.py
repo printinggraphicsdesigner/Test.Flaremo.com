@@ -1,5 +1,10 @@
+import random
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
+
+def generate_otp():
+    return str(random.randint(100000, 999999))
+
 
 def send_otp_email(user, otp):
     subject = "Verify your account - Flaremo"
