@@ -76,12 +76,19 @@ def register_view(request):
         user.is_active = False
         user.save()
 
+
         # Delete old OTP
         EmailOTP.objects.filter(user=user).delete()
 
         # Generate OTP
         otp = generate_otp()
         EmailOTP.objects.create(user=user, otp=otp)
+
+        try:
+            send_otp_email(user, otp)
+        except Exception as e:
+            print(f"Email sending failed: {e}")
+   
 
         # ✅ সুন্দর HTML email send
         send_otp_email(user, otp)
