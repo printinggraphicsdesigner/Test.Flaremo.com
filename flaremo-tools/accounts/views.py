@@ -76,27 +76,24 @@ def register_view(request):
         user.is_active = False
         user.save()
 
-
-        # Delete old OTP
+        # Delete old OTP (if any)
         EmailOTP.objects.filter(user=user).delete()
 
         # Generate OTP
         otp = generate_otp()
         EmailOTP.objects.create(user=user, otp=otp)
 
+        # ✅ সুন্দরভাবে মাত্র একবার ইমেইল পাঠান এবং এরর হ্যান্ডেল করুন
         try:
             send_otp_email(user, otp)
         except Exception as e:
-            print(f"Email sending failed: {e}")
-   
+            # ইমেইল না গেলেও যেন ইউজার ভেরিফিকেশন পেজে যেতে পারে
+            print(f"CRITICAL ERROR: Email sending failed: {e}")
 
-        # ✅ সুন্দর HTML email send
-        send_otp_email(user, otp)
-
+        # রিডাইরেক্ট সবসময় শেষে থাকবে
         return redirect(f'/account/verify-otp/{user.id}/')
 
     return render(request, 'accounts/register.html')
-
 
 # ================= VERIFY OTP =================
 def verify_otp(request, user_id):
