@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.dashboard, name='account_dashboard'),
+    path('dashboard/', views.dashboard, name='account_dashboard'),
     path('logout/', views.logout_view, name='logout'),
 
     # OTP
