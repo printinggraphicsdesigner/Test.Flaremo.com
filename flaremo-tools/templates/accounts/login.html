@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-md mx-auto mt-20 bg-white p-8 rounded-xl shadow">
+
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+
+    {% if error %}
+        <div class="bg-red-100 text-red-600 p-3 mb-4 rounded">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- EMAIL -->
+        <input type="email" name="email" placeholder="Email"
+            class="w-full mb-4 p-3 border rounded" required>
+
+        <!-- PASSWORD + 👁️ SHOW/HIDE -->
+        <div class="relative mb-4">
+            <input type="password" id="password" name="password"
+                class="w-full p-3 border rounded" placeholder="Password" required>
+
+            <span onclick="togglePassword()" 
+                class="absolute right-3 top-3 cursor-pointer select-none">👁️</span>
+        </div>
+
+        <!-- ✅ REMEMBER ME -->
+        <div class="flex items-center mb-4">
+            <input type="checkbox" name="remember" class="mr-2">
+            <label>Remember Me</label>
+        </div>
+
+        <!-- LOGIN BUTTON -->
+        <button class="w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700">
+            Login
+        </button>
+    </form>
+
+    <!-- FORGOT PASSWORD -->
+    <p class="text-center mt-4">
+        <a href="/forgot-password/" class="text-red-500">Forgot Password?</a>
+    </p>
+
+    <!-- REGISTER -->
+    <p class="text-center mt-2">
+        Don't have an account?
+        <a href="/register/" class="text-blue-600">Register</a>
+    </p>
+
+</div>
+
+<!-- ✅ JS (BOTTOM এ বসাতে হবে) -->
+<script>
+function togglePassword() {
+    const pass = document.getElementById('password');
+    pass.type = pass.type === 'password' ? 'text' : 'password';
+}
+</script>
+
+{% endblock %}
