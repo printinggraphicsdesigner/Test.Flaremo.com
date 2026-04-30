@@ -102,8 +102,8 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 # আপনার জিমেইল আইডি
-EMAIL_HOST_USER = config('EMAIL_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_PASS', default='')
+EMAIL_HOST_USER = config('EMAIL_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_PASS')
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
