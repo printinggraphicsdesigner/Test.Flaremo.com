@@ -102,8 +102,7 @@ EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
 # আপনার জিমেইল আইডি
-EMAIL_HOST_USER = 'printinggraphicsdesigner@gmail.com
-' 
+EMAIL_HOST_USER = 'printinggraphicsdesigner@gmail.com' 
 
 # ১৬ অক্ষরের অ্যাপ পাসওয়ার্ডটি এখানে বসান (স্পেস ছাড়া)
 EMAIL_HOST_PASSWORD = 'bmzihedczhtnuzhu' 
