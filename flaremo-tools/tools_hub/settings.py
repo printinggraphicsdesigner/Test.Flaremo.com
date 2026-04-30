@@ -73,22 +73,42 @@ DATABASES = {
 
 
 # ================= EMAIL CONFIG =================
-from decouple import config
+#from decouple import config
 
 # ইমেইল সার্ভার সেটিংস
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'mail.flaremo.com'
+#EMAIL_PORT = 587
+#EMAIL_USE_TLS = True
+#EMAIL_USE_SSL = False
+
+# এটি লোকাল পিসিতে .env ফাইল থেকে নিবে 
+# আর Render-এ ডেপ্লয় করলে সেখানকার Environment Variables থেকে নিবে
+#EMAIL_HOST_USER = config('EMAIL_USER', default='')
+#EMAIL_HOST_PASSWORD = config('EMAIL_PASS', default='')
+
+#DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+#SERVER_EMAIL = EMAIL_HOST_USER
+
+
+
+
+
+# ================= GMAIL SMTP CONFIG =================
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.flaremo.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-# এটি লোকাল পিসিতে .env ফাইল থেকে নিবে 
-# আর Render-এ ডেপ্লয় করলে সেখানকার Environment Variables থেকে নিবে
-EMAIL_HOST_USER = config('EMAIL_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_PASS', default='')
+# আপনার জিমেইল আইডি
+EMAIL_HOST_USER = 'printinggraphicsdesigner@gmail.com
+' 
+
+# ১৬ অক্ষরের অ্যাপ পাসওয়ার্ডটি এখানে বসান (স্পেস ছাড়া)
+EMAIL_HOST_PASSWORD = 'bmzihedczhtnuzhu' 
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-SERVER_EMAIL = EMAIL_HOST_USER
 
 
 
