@@ -125,7 +125,7 @@ def verify_otp(request):
             # session clear
             del request.session['verify_user_id']
 
-            return redirect('/account/')
+            return redirect('/account/dashboard/')
 
         return render(request, 'accounts/verify_otp.html', {
             'error': 'Invalid OTP'
